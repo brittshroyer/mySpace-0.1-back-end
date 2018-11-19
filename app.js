@@ -7,13 +7,13 @@ var cors = require('cors');
 var mongoose = require('mongoose');
 var mongoDB;
 
+require('dotenv').config();
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var getUserProfileRouter = require('./routes/getUserProfile');
 
 var app = express();
-
-require('dotenv').config();
 
 mongoDB = 'mongodb://admin:' + process.env.MLABPASSWORD + '@ds149373.mlab.com:49373/myspace';
 mongoose.connect(mongoDB, {useNewUrlParser: true });

@@ -1,29 +1,19 @@
 var User = function() {
 
-  var mongoose = require('mongoose'),
-      ObjectId = mongoose.Schema.Types.ObjectId,
-      schema,
-      model;
+  var mongoose = require('mongoose');
+  var Schema = mongoose.Schema;
 
-  schema = new mongoose.Schema({
-    email: String,
-    name: String,
-    description: String
+  var userSchema = new Schema({
+     username:String,
+     email:String,
+     description:String,
+     pictureUrl:String
   });
 
-  schema.virtual('id').get(function() {
-    return this._id.toHexString();
-  });
+  var model = mongoose.model('user', userSchema);
 
-  schema.set('toJSON', {virtuals: true});
-
-  // schema.plugin(timestamps);
-
-  model = mongoose.model('user', schema);
-
-  return {schema: schema,
+  return {schema: userSchema,
           model: model};
-
 }();
 
 module.exports = User;

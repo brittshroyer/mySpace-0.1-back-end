@@ -5,20 +5,29 @@ var User = require('../models/User');
 router.get('/:email', function(req, res, next) {
   var email = req.params.email;
   var payload = {};
-  console.log('email on back end', email);
-  if (email) {
-    User.model.findOne({email: email}, function(err, obj) {
-      if (err) {
-        return res.status(409).send(err.errors);
-      } else {
-        console.log('USER MONGO DATA OBJECT', obj);
-        payload.user = obj;
-        return res.status(200).send(payload);
-      }
-    });
-  } else {
-    res.status(400).send(payload);
-  }
+  console.log('email', email);
+  User.model.findOne({email: email}, function(err, obj) {
+    console.log('obj', obj);
+    if (err) {
+      return res.status(404).send(err.errors);
+    } else if (!obj) {
+      payload.user = {
+        email: '',
+        description: '',
+        _id: '',
+        username: ''
+      };
+      return res.status(206).send(payload);
+    } else {
+      payload.user = obj;
+
+      console.log('obj on backend low', obj);
+      return res.status(200).send(payload);
+    }
+
+    console.log('obj', obj);
+  });
+
   //find user in DB using this email
   //return userModel if found
 });
